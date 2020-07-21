@@ -74,8 +74,11 @@ function addToDo(toDo, id, done, trash) {
 
     /*Finally it will display the html in the ui using this in just after the where the id list ends i.e. ul which contains li*/
     list.insertAdjacentHTML(position, item);
+    if(!done){
     num = num + 1;
+    }
     taskLeft();
+
 
 }
 
@@ -143,6 +146,8 @@ function removeToDo(element) {
 
     /*We will set trash as true after deleting that*/
     LIST[element.id].trash = true;
+    num=num-1;
+    taskLeft();
 }
 
 
@@ -224,7 +229,7 @@ all.addEventListener("click", function (event) {
     while (list.firstChild) {
         list.removeChild(list.firstChild);
     }
-
+    num=0;
     LIST.forEach(function (item) {
         addToDo(item.name, item.id, item.done, item.trash);
     });
@@ -237,8 +242,10 @@ completeTaskTop.addEventListener("click", function (event) {
     }
 
     LIST.forEach(function (item) {
-        toDoDone(item.name, item.id, item.done, item.trash);
+        item.done=true;
     });
+    num =0;
+    taskLeft();
 });
 
 /*-----------------------------------------------------------------CLEAR COMPLETE-------------------------------------------- */
@@ -251,8 +258,10 @@ clearComplete.addEventListener("click", function (event) {
             LIST.splice(i, 1);
         }
     }
+    num=0;
     LIST.forEach(function (item, index) {
         item.id = index;
+        
         if (!item.done) {
 
             addToDo(item.name, item.id, item.done, item.trash);
